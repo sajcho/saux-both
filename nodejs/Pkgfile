@@ -1,0 +1,42 @@
+# Description:	JavaScript runtime built on V8 engine - LTS version
+# URL:		http://nodejs.org/
+# Maintainer:	sajcho, saux dot aarch64 at gmail dot com
+# Depends on:	brotli c-ares icu libnghttp2
+
+name=nodejs
+version=16.13.2
+release=1
+source=(https://nodejs.org/dist/v${version}/node-v${version}.tar.xz \
+	system-c-ares.patch)
+
+build() {
+	cd node-v${version}
+
+	patch -Rp1 -i $SRC/system-c-ares.patch
+
+	./configure \
+		--prefix=/usr \
+		--shared-brotli \
+		--shared-cares \
+		--shared-libuv \
+		--shared-nghttp2 \
+		--shared-openssl \
+		--shared-zlib \
+		--with-intl=system-icu \
+		--without-npm
+
+	make V=1
+
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
+
+	# clean up
+	find $PKG -type f \( \
+		-name 'README.md' -o \
+		-name 'AUTHORS.md' -o \
+		-name 'INSTALL.md' -o \
+		-name 'TODO.org' -o \
+		-name 'ChangeLog' -o \
+		-name 'NEWS' \) -delete
+}

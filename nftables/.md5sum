@@ -1,0 +1,7 @@
+7bb3d19772a5eb19247f6512744688ee  nftables-1.0.1-drop-historyh.patch
+acfd5a00f097e11cf10efc91d47c0522  nftables-1.0.1-fix-terse.patch
+e3cf7011ee1e8e123c962446262de7cc  nftables-1.0.1.tar.bz2
+be5cf6d2e9bc2a64f436c88c6f32a54d  nftables-basic-firewall.nft
+0ca396205e20ea0507f086ac3e478eef  nftables.conf
+3e0df138de861b9f829eb2a7cf8f8c58  nftables.finish
+afff0b30e3ef6904c04a47977aaaddfd  nftables.run
