@@ -1,0 +1,21 @@
+# Description:	Unicode Bidirectional (BiDi) Algorithm.
+# URL:		https://github.com/fribidi/fribidi/
+# Maintainer:	sajcho, saux dot aarch64 at gmail dot com
+
+name=fribidi
+version=1.0.11
+release=1
+source=(https://github.com/${name}/${name}/releases/download/v${version}/${name}-${version}.tar.xz)
+
+build() {
+	cd ${name}-${version}
+
+	./configure \
+		--prefix=/usr
+
+	make V=1
+
+	make DESTDIR=$PKG install
+
+	find $PKG -type f -name '*.la' -delete
+}

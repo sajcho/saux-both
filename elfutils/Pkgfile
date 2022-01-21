@@ -1,0 +1,34 @@
+# Description:	A collection of utilities to handle ELF objects.
+# URL:		https://sourceware.org/elfutils/
+# Maintainer:	sajcho, saux dot aarch64 at gmail dot com
+# Depends on:	bzip2 zstd
+
+name=elfutils
+version=0.186
+release=1
+source=(https://sourceware.org/${name}/ftp/${version}/${name}-${version}.tar.bz2 \
+	disable_werror.patch)
+
+build() {
+	cd ${name}-${version}
+
+	# disable -Werror as it tends to break with new gcc versions
+	patch -p1 -i $SRC/disable_werror.patch
+
+	autoreconf -fiv
+
+	./configure \
+		--prefix=/usr \
+		--program-prefix=eu- \
+		--enable-maintainer-mode \
+		--enable-deterministic-archives \
+		--disable-libdebuginfod \
+		--disable-debuginfod \
+		--disable-nls
+
+	make V=1
+
+	make DESTDIR=$PKG install
+
+	find $PKG -type f -name '*.a' -delete
+}
