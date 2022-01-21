@@ -1,0 +1,22 @@
+# Description:	Adds readline-style editing and history to programs.
+# URL:		https://github.com/hanslub42/rlwrap
+# Maintainer:	sajcho, saux dot aarch64 at gmail dot com
+# Depends on:	python3
+
+name=rlwrap
+version=0.45.2
+release=1
+source=(https://github.com/hanslub42/${name}/archive/v${version}/${name}-${version}.tar.gz)
+
+build() {
+	cd ${name}-${version}
+
+	autoreconf -fiv
+
+	./configure \
+		--prefix=/usr
+
+	make V=1
+
+	make DESTDIR=$PKG install
+}

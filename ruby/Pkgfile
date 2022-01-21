@@ -1,0 +1,38 @@
+# Description:	An object-oriented language for quick and easy programming
+# URL:		http://www.ruby-lang.org
+# Maintainer:	sajcho, saux dot aarch64 at gmail dot com
+# Depends on:	gmp yaml
+
+name=ruby
+version=3.1.0
+release=1
+source=(http://cache.ruby-lang.org/pub/${name}/${version%.*}/${name}-${version}.tar.xz \
+	rubygems-avoid-platform-specific-gems.patch)
+
+build() {
+	cd ${name}-${version}
+
+	patch -p1 -i $SRC/rubygems-avoid-platform-specific-gems.patch
+
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/share/man \
+		--enable-shared \
+		--disable-install-doc \
+		--disable-install-static-library \
+		--with-os-version-style=full
+
+	make V=1
+
+	make DESTDIR=$PKG install
+
+	find $PKG -type f \( \
+		-name 'COPYING' -o \
+		-name 'NEWS*' -o \
+		-name 'README*' -o \
+		-name 'BSDL' -o \
+		-name 'PSFL' -o \
+		-name 'CHANGELOG*' -o \
+		-name 'CONTRIBUTING*' -o \
+		-name 'LICENSE*' \) -delete
+}
