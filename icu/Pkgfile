@@ -1,0 +1,27 @@
+# Description:	International Components for Unicode library
+# URL:		http://site.icu-project.org/
+# Maintainer:	sajcho, saux dot aarch64 at gmail dot com
+
+name=icu
+version=70.1
+release=1
+source=(https://github.com/unicode-org/${name}/releases/download/release-${version//./-}/icu4c-${version/./_}-src.tgz)
+
+build() {
+	cd ${name}/source
+
+	export CC="gcc"
+	export CXX="g++"
+
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/share/man \
+		--disable-samples \
+		--disable-tests
+
+	make -O ${JOBS:+-j ${JOBS}} V=1 VERBOSE=1
+
+	make -j1 DESTDIR=$PKG install
+
+	rm $PKG/usr/share/icu/70.1/LICENSE
+}

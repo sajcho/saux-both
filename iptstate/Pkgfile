@@ -1,0 +1,20 @@
+# Description:	Top-like interface to netfilter connection-tracking table
+# URL:		https://www.phildev.net/iptstate/
+# Maintainer:	sajcho, saux dot aarch64 at gmail dot com
+# Depends on:	libnetfilter_conntrack ncurses
+
+name=iptstate
+version=2.2.7
+release=1
+source=(https://github.com/jaymzh/${name}/releases/download/v${version}/${name}-${version}.tar.bz2)
+
+build() {
+	cd ${name}-${version}
+
+	sed 's|lncurses|lncurses -ltinfo|' -i Makefile
+
+	make V=1
+
+	install -D -m 0755 ${name} $PKG/usr/sbin/${name}
+	install -D -m 0444 ${name}.8 $PKG/usr/share/man/man8/${name}.8
+}
