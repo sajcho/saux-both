@@ -1,0 +1,6 @@
+# saux-aarch64 ports collection - arch aarch64
+#
+# https://github.com/sajcho/saux-aarch64
+
+ROOT_DIR=/usr/ports/saux-aarch64/
+URL=https://raw.githubusercontent.com/sajcho/saux-aarch64/main

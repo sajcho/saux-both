@@ -1,0 +1,6 @@
+# saux-both ports collection - for both arch
+#
+# https://github.com/sajcho/saux-both
+
+ROOT_DIR=/usr/ports/saux-both/
+URL=https://raw.githubusercontent.com/sajcho/saux-both/main
