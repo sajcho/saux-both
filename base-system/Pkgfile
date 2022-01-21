@@ -1,0 +1,22 @@
+# Description:	Meta port - SAUX x86_64 base system
+# URL:		https://github.com/sajcho/saux/
+# Maintainer:	sajcho, saux dot aarch64 at gmail dot com
+# Depends on:	bc bindutils binutils bison ca-certificates check chrony console-font-terminus coreutils cpio dash dejagnu dhcpcd diffutils e2fsprogs earlyoom ed fcron filesystem findutils gcc git gpm grep groff grub2 gzip httpup iana-etc inetutils iproute2 iputils kbd less libidn2 libnghttp2 libnsl llvm-toolchain lynx lzip m4 make man-db man-pages mc minicom mold nasm nftables opendoas openssh patch pciutils pkgutils plocate ports prt-get prt-utils psmisc rsync runit-saux sed shadow sharutils signify socklog-config sysfsutils tar time tzdata usbutils vim which
+
+name=base-system
+version=0.9
+release=1
+source=()
+
+build() {
+	install -d $PKG/etc
+	# create os-release
+	cat <<- EOF > $PKG/etc/os-release
+NAME="SAUX Linux"
+VERSION_ID=${version}
+ID=saux
+BUILD_ID=rolling
+PRETTY_NAME="SAUX Linux x86_64 v${version}"
+HOME_URL="https://github.com/sajcho/saux/"
+EOF
+}
