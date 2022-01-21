@@ -1,0 +1,35 @@
+# Description:	Brotli compression library
+# URL:		https://github.com/google/brotli
+# Maintainer:	sajcho, saux dot aarch64 at gmail dot com
+# Depends on:	cmake
+
+name=brotli
+version=1.0.9
+release=1
+source=(https://github.com/google/${name}/archive/v${version}/${name}-v${version}.tar.gz \
+	add-runtime-linker-path.patch \
+	build-tool-against-shared-lib.patch)
+
+build() {
+	cd ${name}-${version}
+
+	patch -p1 -i $SRC/add-runtime-linker-path.patch
+	patch -p1 -i $SRC/build-tool-against-shared-lib.patch
+
+	mkdir build
+	cd build
+
+	cmake .. \
+		-DCMAKE_BUILD_TYPE=None \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=/usr/lib \
+		-DBUILD_SHARED_LIBS=True \
+		-DCMAKE_C_FLAGS="$CFLAGS" \
+		-Wno-dev
+
+	make -O ${JOBS:+-j ${JOBS}} V=1 VERBOSE=1
+
+	make DESTDIR=$PKG install
+
+	find $PKG -type f -name '*.a' -delete
+}
