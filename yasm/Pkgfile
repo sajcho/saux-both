@@ -1,0 +1,24 @@
+# Description:	A rewrite of NASM to allow for multiple syntax supported (NASM, TASM, GAS, etc.)
+# URL:		http://www.tortall.net/projects/yasm/
+# Maintainer:	sajcho, saux dot aarch64 at gmail dot com
+
+name=yasm
+version=1.3.0
+release=1
+source=(http://www.tortall.net/projects/${name}/releases/${name}-${version}.tar.gz \
+	fix-memory-using-gas-processor.patch)
+
+build() {
+	cd ${name}-${version}
+
+	patch -p1 -i $SRC/fix-memory-using-gas-processor.patch
+
+	./configure \
+		--prefix=/usr
+
+	make V=1
+
+	make DESTDIR=$PKG install
+
+	find $PKG -type f -name '*.a' -delete
+}

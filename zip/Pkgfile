@@ -1,0 +1,26 @@
+# Description:	Creates PKZIP-compatible .zip files
+# URL:		http://infozip.sourceforge.net/Zip.html
+# Maintainer:	sajcho, saux dot aarch64 at gmail dot com
+# Depends on:	bzip2
+
+name=zip
+version=3.0
+release=1
+source=(http://downloads.sourceforge.net/sourceforge/infozip/${name}${version//./}.tar.gz \
+	10-zip-3.0-build.patch \
+	20-zip-3.0-exec-stack.patch \
+	30-zip-3.0-pic.patch \
+	40-fix-zipnote.patch)
+
+build() {
+	cd ${name}${version//./}
+
+	patch -p1 -i $SRC/10-zip-3.0-build.patch
+	patch -p1 -i $SRC/20-zip-3.0-exec-stack.patch
+	patch -p1 -i $SRC/30-zip-3.0-pic.patch
+	patch -p1 -i $SRC/40-fix-zipnote.patch
+
+	make -f unix/Makefile LOCAL_ZIP="$CFLAGS" prefix=/usr generic
+
+	make -f unix/Makefile INSTALL=install prefix=$PKG/usr MANDIR=$PKG/usr/share/man/man1 install
+}

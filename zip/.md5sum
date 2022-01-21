@@ -1,0 +1,5 @@
+c56454742a8273c2264f87f2e69aee79  10-zip-3.0-build.patch
+24aa8c89371f67e6b31105844780dbc3  20-zip-3.0-exec-stack.patch
+1395f053d2bcee85b96c94dfd7813b8d  30-zip-3.0-pic.patch
+cfb051847ce2552c78033d5b63d2fae0  40-fix-zipnote.patch
+7b74551e63f8ee6aab6fbc86676c0d37  zip30.tar.gz

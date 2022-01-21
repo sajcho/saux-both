@@ -1,0 +1,23 @@
+# Description:	YAML 1.1 parser and emitter written in C
+# URL:		https://pyyaml.org/wiki/LibYAML
+# Maintainer:	sajcho, saux dot aarch64 at gmail dot com
+# Depends on:	python3
+
+name=yaml
+version=0.2.5
+release=1
+source=(https://pyyaml.org/download/libyaml/${name}-${version}.tar.gz)
+
+build() {
+	cd ${name}-${version}
+
+	./configure \
+		--prefix=/usr \
+		--disable-static
+
+	make V=1
+
+	make DESTDIR=$PKG install
+
+	find $PKG -type f -name '*.la' -delete
+}
