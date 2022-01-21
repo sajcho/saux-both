@@ -1,0 +1,41 @@
+# Description:	A collection of core GNU utilities
+# URL:		http://www.gnu.org/software/coreutils/
+# Maintainer:	sajcho, saux dot aarch64 at gmail dot com
+# Depends on:	gmp acl libcap
+
+name=coreutils
+version=9.0
+release=1
+source=(http://ftpmirror.gnu.org/gnu/${name}/${name}-${version}.tar.xz \
+	chmod.c.patch \
+	coreutils-uname.patch)
+
+build() {
+	cd ${name}-${version}
+
+	patch -p1 -i $SRC/chmod.c.patch
+	patch -p1 -i $SRC/coreutils-uname.patch
+
+	export FORCE_UNSAFE_CONFIGURE=1
+
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib \
+		--disable-nls \
+		--disable-assert \
+		--enable-no-install-program=uptime,kill,chcon,runcon,groups
+
+	make V=1
+
+	make DESTDIR=$PKG install
+
+	install -d $PKG/bin
+	# these binaries move from /usr/bin to /bin
+	local binaries="cat chgrp chmod chown cp date dd df echo false ln ls mkdir \
+		sleep mknod mv pwd readlink rm rmdir stty sync touch true uname"
+	for f in $binaries; do \
+		mv $PKG/usr/bin/$f $PKG/bin; \
+	done
+
+	rm -r $PKG/usr/share/info
+}
